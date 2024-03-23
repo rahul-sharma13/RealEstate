@@ -3,23 +3,18 @@ import bcryptjs from "bcryptjs";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-export const signUp = async (req, res) => {
+export const signUp = async (req, res,next) => {
   const { username, email, password } = req.body;
-  const hashedPassword = bcryptjs.hashSync(password,10);
+  const hashedPassword = bcryptjs.hashSync(password, 10);
 
-  const existedUser = await User.findOne({
-    $or: [{ username }, { email }],
-  });
+  const newUser = new User({ username, email, password: hashedPassword });
 
-  if (existedUser) {
-    throw new ApiError(409, "User already exists");
+  try {
+    await newUser.save();
+    return res
+      .status(201)
+      .json(new ApiResponse(200, newUser, "user is registered"));
+  } catch (error) {
+    next(error);
   }
-
-  const newUser = new User({ username, email, password : hashedPassword });
-
-  await newUser.save();
-
-  return res
-    .status(201)
-    .json(new ApiResponse(200, newUser, "user is registered"));
 };
