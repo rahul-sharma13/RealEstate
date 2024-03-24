@@ -21,12 +21,12 @@ const SignUp = () => {
 
     setLoading(true);
     await axios.post('/api/auth/signup', formData).then((response) => {
-      console.log(response?.data?.message);
+      // console.log(response?.data?.message);
       setLoading(false);
       setError(null);
       navigate('/signin');
     }).catch((err) => {
-      console.log(err);
+      // console.log(err);
       setError(err.response?.data?.message);
       setLoading(false);
       return;
