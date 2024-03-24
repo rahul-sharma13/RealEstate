@@ -1,11 +1,18 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 
 const SignIn = () => {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  // redux helping in reducing the states created
+
+  const { loading, error } = useSelector((state) => state.user) // user is the name of state created in userSlice
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,19 +24,21 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    await axios.post('/api/auth/signin', formData).then((response) => {
-      console.log(response);
-      setLoading(false);
-      setError(null);
-      navigate('/');
-    }).catch((err) => {
-      // console.log(err)
-      setError(err.response?.data?.message);
-      setLoading(false);
-      return;
-    })
+    try {
+      dispatch(signInStart());
+      await axios.post('/api/auth/signin', formData).then((response) => {
+        // console.log(response);
+        dispatch(signInSuccess(response?.data?.data));
+        navigate('/');
+      }).catch((err) => {
+        // console.log(err)
+        dispatch(signInFailure(err.response?.data?.message));
+        return;
+      })
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+    }
   }
 
   return (
