@@ -38,7 +38,7 @@ export const signIn = async (req, res, next) => {
     const requiredUser = await User.findById(validUser._id).select("-password");
 
     res
-      .cookie("access-token", token, { httpOnly: true })
+      .cookie("access_token", token, { httpOnly: true })
       .status(200)
       .json(new ApiResponse(200, requiredUser, "User signed in successfully."));
   } catch (error) {
@@ -56,7 +56,7 @@ export const googleSignIn = async (req, res, next) => {
       const resultUser = await User.findById(user._id).select("-password");
 
       res
-        .cookie("access-token", token, { httpOnly: true })
+        .cookie("access_token", token, { httpOnly: true })
         .status(200)
         .json(new ApiResponse(200, resultUser, "User logged in using google"));
 
@@ -82,7 +82,7 @@ export const googleSignIn = async (req, res, next) => {
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
       res
-        .cookie("access-token", token, { httpOnly: true })
+        .cookie("access_token", token, { httpOnly: true })
         .status(200)
         .json(
           new ApiResponse(200, newUser, "user created using google sign in")
