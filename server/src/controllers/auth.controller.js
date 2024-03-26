@@ -53,7 +53,7 @@ export const googleSignIn = async (req, res, next) => {
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-      const resultUser = user.select("-password");
+      const resultUser = await User.findById(user._id).select("-password");
 
       res
         .cookie("access-token", token, { httpOnly: true })
