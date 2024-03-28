@@ -60,7 +60,7 @@ export const googleSignIn = async (req, res, next) => {
         .status(200)
         .json(new ApiResponse(200, resultUser, "User logged in using google"));
 
-      // creating a new user if that user is not already signed in 
+      // creating a new user if that user is not already signed in
     } else {
       // as password required is true in schema but there is no password created when we use google sign in so we first need to create a password
 
