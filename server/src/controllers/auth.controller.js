@@ -92,3 +92,14 @@ export const googleSignIn = async (req, res, next) => {
     next(error);
   }
 };
+
+export const signOut = async (req,res,next) => {
+  try {
+    res.clearCookie('access_token');
+    res
+      .status(200)
+      .json(new ApiResponse(200,{},'user has been signed out.'))
+  } catch (error) {
+    next(error)
+  }
+}

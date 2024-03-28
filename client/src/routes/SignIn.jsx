@@ -38,7 +38,8 @@ const SignIn = () => {
         return;
       })
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      dispatch(signInFailure(error));
+      // console.log('failed here');
     }
   }
 
