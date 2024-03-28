@@ -2,11 +2,11 @@ import React, { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebase';
-import { updateUserStart, updateUserSuccess, updateUserFail } from '../redux/user/userSlice';
+import { updateUserStart, updateUserSuccess, updateUserFail, deleteUserFail, deleteUserStart, deleteUserSuccess } from '../redux/user/userSlice';
 import axios from 'axios';
 
 const Profile = () => {
-  const { currentUser, loading, error } = useSelector((state) => state.user);
+  const { currentUser, loading } = useSelector((state) => state.user);
   const fileRef = useRef(null); // reference created to do the input functionality by clicking on the profile img
 
   // to handle the image upload, it is done using storage of firebase
@@ -70,6 +70,20 @@ const Profile = () => {
     }
   }
 
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+
+      await axios.delete(`/api/users/delete/${currentUser?._id}`).then((response) => {
+        dispatch(deleteUserSuccess(response?.data));
+      }).catch((error) => {
+        console.log(error);
+      })
+    } catch (error) {
+      dispatch(deleteUserFail(error?.message))
+    }
+  }
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -104,11 +118,11 @@ const Profile = () => {
         <input type='email' id='email' placeholder='email' className='border p-3 rounded-lg' defaultValue={currentUser?.email} onChange={handleChange} />
         <input type='password' placeholder='password' className='border p-3 rounded-lg' onChange={handleChange} />
         <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>
-          {loading ? 'loading...':'Update'}
+          {loading ? 'loading...' : 'Update'}
         </button>
       </form>
       <div className='flex justify-between mt-5'>
-        <span className='text-red-700 cursor-pointer'>Delete Account</span>
+        <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete Account</span>
         <span className='text-red-700 cursor-pointer'>Sign Out</span>
       </div>
     </div>
