@@ -2,7 +2,17 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserStart, updateUserSuccess, updateUserFail, deleteUserFail, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFail, signOutUserSuccess } from '../redux/user/userSlice';
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFail,
+  deleteUserFail,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserStart,
+  signOutUserFail,
+  signOutUserSuccess
+} from '../redux/user/userSlice';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -114,6 +124,16 @@ const Profile = () => {
     }
   }
 
+  const handleListingDelete = async (id) => {
+    try {
+      await axios.delete(`/api/listing/delete/${id}`).then((response) => {
+        setUserListing((prev) => userListing.filter((listing) => listing._id !== id));
+      })
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -154,6 +174,7 @@ const Profile = () => {
           Create Listing
         </Link>
       </form>
+
       <div className='flex justify-between mt-5'>
         <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete Account</span>
         <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>Sign Out</span>
@@ -167,16 +188,16 @@ const Profile = () => {
         userListing.map((listing) => (
           <div key={listing._id} className='border rounded-lg p-3 flex justify-between items-center mb-3 gap-4'>
             <Link to={`/listing/${listing._id}`}>
-              <img 
-                src={listing.imageUrls[0]} 
-                alt='listing-img' 
+              <img
+                src={listing.imageUrls[0]}
+                alt='listing-img'
                 className='h-16 w-16 object-contain'
               />
             </Link>
-            <p className='text-slate-700 font-semibold flex-1 hover:underline truncate'>{listing.name}</p>
+            <p className='text-slate-700 font-semibold flex-1 hover:underline truncate cursor-default'>{listing.name}</p>
 
             <div className='flex flex-col items-center'>
-              <button className='text-red-700 uppercase'>Delete</button>
+              <button className='text-red-700 uppercase' onClick={() => handleListingDelete(listing._id)}>Delete</button>
               <button className='text-green-700 uppercase'>Edit</button>
             </div>
           </div>
