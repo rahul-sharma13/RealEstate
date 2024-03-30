@@ -17,6 +17,8 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   // console.log(formData);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListing, setUserListing] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -96,6 +98,22 @@ const Profile = () => {
     }
   }
 
+  const handleShowListings = async () => {
+    try {
+      setShowListingError(false);
+      await axios.get(`/api/users/listings/${currentUser._id}`)
+        .then((response) => {
+          // console.log(response);
+          setUserListing(response?.data?.data);
+        })
+        .catch((error) => {
+          setShowListingError(true);
+        })
+    } catch (error) {
+      setShowListingError(true);
+    }
+  }
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -140,6 +158,30 @@ const Profile = () => {
         <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete Account</span>
         <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>Sign Out</span>
       </div>
+
+      <button className='text-green-700 w-full' onClick={handleShowListings}>Show Listings</button>
+
+      <p className='text-red-700 mt-5'>{showListingError ? 'Error showing listings' : ''}</p>
+
+      {userListing && userListing.length > 0 &&
+        userListing.map((listing) => (
+          <div key={listing._id} className='border rounded-lg p-3 flex justify-between items-center mb-3 gap-4'>
+            <Link to={`/listing/${listing._id}`}>
+              <img 
+                src={listing.imageUrls[0]} 
+                alt='listing-img' 
+                className='h-16 w-16 object-contain'
+              />
+            </Link>
+            <p className='text-slate-700 font-semibold flex-1 hover:underline truncate'>{listing.name}</p>
+
+            <div className='flex flex-col items-center'>
+              <button className='text-red-700 uppercase'>Delete</button>
+              <button className='text-green-700 uppercase'>Edit</button>
+            </div>
+          </div>
+        ))
+      }
     </div>
   )
 }

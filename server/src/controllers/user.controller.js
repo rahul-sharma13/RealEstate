@@ -2,6 +2,7 @@ import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import User from "../models/Users.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import Listing from "../models/Listing.model.js";
 
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
@@ -46,5 +47,18 @@ export const deleteUser = async (req, res, next) => {
     res.status(200).json(new ApiResponse(200, {}, "user deleted successfully"));
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserListings = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef: req.params.id });
+      res.status(200).json(new ApiResponse(200, listings, "listings added"));
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(errorHandler(401, "you can view your listings only"));
   }
 };
