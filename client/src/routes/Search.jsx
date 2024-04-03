@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ListingItem from '../components/ListingItem';
 
 const Search = () => {
     const navigate = useNavigate();
@@ -14,6 +15,8 @@ const Search = () => {
         order: 'desc'
     })
     const [loading, setLoading] = useState(false)
+    const [listings, setListings] = useState([])
+    const [showMore, setShowMore] = useState(false)
 
     // this is to keep the url and our sidebar data same. If any changes is made in the URL or the search bar in header. It will reflected in the sidebar
     useEffect(() => {
@@ -41,17 +44,26 @@ const Search = () => {
         }
 
         const fetchListings = async () => {
+            setShowMore(false);
             setLoading(true);
             const searchQuery = urlparams.toString();
             await axios.get(`/api/listing/get?${searchQuery}`).then((res) => {
-                console.log(res.data)
+                setLoading(false);
+                setListings(res?.data?.data);
+                if (res?.data?.data.length > 8) {
+                    setShowMore(true);
+                } else {
+                    setShowMore(false);
+                }
             }).catch((err) => {
-                console.log(err)
+                setLoading(false);
+                console.log(err);
             })
         };
 
         fetchListings();
     }, [location.search])
+    // console.log(listings)
 
     const handleChange = (e) => {
         if (e.target.id === 'all' || e.target.id === 'rent' || e.target.id === 'sale') {
@@ -87,6 +99,22 @@ const Search = () => {
 
         const searchQuery = urlParams.toString();
         navigate(`/search?${searchQuery}`)
+    }
+
+    const onShowMoreClick = async () => {
+        const numberOfListings = listings.length;
+        const urlParams = new URLSearchParams(location.search);
+        const startIndex = numberOfListings;
+        urlParams.set('startIndex', startIndex);
+        const searchQuery = urlParams.toString();
+        await axios.get(`/api/listing/get?${searchQuery}`).then((res) => {
+            setListings([...listings, ...res?.data?.data]);
+            if (res?.data?.data.length < 9) {
+                setShowMore(false);
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
     return (
@@ -179,10 +207,34 @@ const Search = () => {
                     <button className='bg-slate-700 p-3 rounded-lg uppercase hover:opacity-95 text-white'>Search</button>
                 </form>
             </div>
-            <div className=''>
+            <div className='flex-1'>
                 <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>Listing Results</h1>
+                <div className='p-7 flex flex-wrap gap-2'>
+                    {!loading && listings.length === 0 && (
+                        <p className='text-xl text-slate-700'>No listings found</p>
+                    )}
+                    {loading && (
+                        <p className='text-xl text-slate-700 text-center w-full'>Loading...</p>
+                    )}
+
+                    {
+                        !loading && listings && listings.map((listing) => (
+                            <ListingItem key={listing._id} listing={listing} />
+                        ))
+                    }
+                    {showMore && (
+                        <button
+                            onClick={
+                                onShowMoreClick()
+                            }
+                            className='text-green-700 hover:underline p-7 text-center w-full'
+                        >
+                            Show More
+                        </button>
+                    )}
+                </div>
             </div>
-        </div>
+        </div >
     )
 }
 
