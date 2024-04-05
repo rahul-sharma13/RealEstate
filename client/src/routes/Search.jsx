@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ListingItem from '../components/ListingItem';
+import ListingItem from '../components/ListingItem'
 
 const Search = () => {
     const navigate = useNavigate();
@@ -224,9 +224,7 @@ const Search = () => {
                     }
                     {showMore && (
                         <button
-                            onClick={
-                                onShowMoreClick()
-                            }
+                            onClick={onShowMoreClick()}
                             className='text-green-700 hover:underline p-7 text-center w-full'
                         >
                             Show More
@@ -234,7 +232,7 @@ const Search = () => {
                     )}
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 

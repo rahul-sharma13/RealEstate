@@ -2,6 +2,7 @@ import { RiSearchLine } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { FaLocationDot } from 'react-icons/fa6';
 
 const Header = () => {
     const { currentUser } = useSelector(state => state.user)
@@ -29,16 +30,17 @@ const Header = () => {
 
     return (
         <header className='bg-[#131110] shadow-md'>
-            <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
+            <div className='flex justify-between items-center max-w-6xl mx-auto py-4 font-serif'>
                 <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
                     <span className='text-white'>Homyz</span>
-                    <span className='text-slate-700'>Estate</span>
                 </h1>
-                <form onSubmit={handleSubmit} className='bg-white px-3 py-2 rounded-lg flex items-center'>
+                <form onSubmit={handleSubmit} className='bg-white px-3 py-2 rounded-3xl flex items-center gap-2'>
+                    <FaLocationDot className='text-gray-700' size={17} />
                     <input
                         type='text'
                         placeholder='Search...'
-                        className='bg-transparent focus:outline-none w-24 sm:w-64'
+                        className='bg-transparent focus:outline-none w-24 sm:w-64
+                        h-8 text-sm sm:text-base placeholder-slate-600'
                         onChange={(e) => setSearchTerm(e.target.value)}
                         value={searchTerm}
                     />
@@ -46,17 +48,24 @@ const Header = () => {
                         <RiSearchLine className='text-slate-600 mr-2' />
                     </button>
                 </form>
-                <ul className='flex gap-4'>
-                    <li className='hidden sm:inline text-white hover:underline'>
+                <ul className='flex gap-4 items-center'>
+                    <li className='hidden sm:inline text-white text-[16px]'>
                         <Link to="/">Home</Link>
                     </li>
-                    <li className='hidden sm:inline text-white hover:underline'><Link to="/about">About</Link></li>
+                    <li className='hidden sm:inline text-white text-[16px]'><Link to="/about">Contact Us</Link></li>
                     {
                         currentUser ? (<Link to={"/profile"}><img src={currentUser?.avatar} alt='profile' className='rounded-full h-7 w-7 object-cover' referrerPolicy="no-referrer" /></Link>)
                             :
-                            (<li className='hidden sm:inline text-white hover:underline'> <Link to="/signin">Sign in</Link></li>)
+                            (
+                                <button
+                                    className="transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary hover:bg-primary/90 h-10 inline-flex items-center justify-center px-6 py-2 border-0 rounded-xl text-sm font-medium text-white bg-gradient-to-l from-[#4066ff] to-[#2949c6] shadow-lg hover:from-[#2949c6] hover:to-[#4066ff]"
+                                >
+                                    <Link to="/signin">
+                                        SignIn
+                                    </Link>
+                                </button>
+                            )
                     }
-
                 </ul>
             </div>
         </header>
@@ -64,3 +73,7 @@ const Header = () => {
 }
 
 export default Header
+
+
+
+// (<li className='hidden sm:inline text-white '> <Link to="/signin">Sign in</Link></li>)
