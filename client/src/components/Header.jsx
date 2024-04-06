@@ -49,10 +49,10 @@ const Header = () => {
                     </button>
                 </form>
                 <ul className='flex gap-4 items-center'>
-                    <li className='hidden sm:inline text-white text-[16px]'>
+                    <li className='hidden sm:inline text-gray-400 text-[16px]'>
                         <Link to="/">Home</Link>
                     </li>
-                    <li className='hidden sm:inline text-white text-[16px]'><Link to="/about">Contact Us</Link></li>
+                    <li className='hidden sm:inline text-gray-400 text-[16px]'><Link to="/create-listing">Add Property</Link></li>
                     {
                         currentUser ? (<Link to={"/profile"}><img src={currentUser?.avatar} alt='profile' className='rounded-full h-7 w-7 object-cover' referrerPolicy="no-referrer" /></Link>)
                             :
@@ -73,7 +73,3 @@ const Header = () => {
 }
 
 export default Header
-
-
-
-// (<li className='hidden sm:inline text-white '> <Link to="/signin">Sign in</Link></li>)
