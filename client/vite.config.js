@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://real-estate-server-i4450hlha-rahuls-projects-8d0afc8f.vercel.app",
+        target: "https://real-estate-rho-two.vercel.app",
         secure: false,
       },
     },
