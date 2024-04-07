@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import userRouter from "./src/routes/user.route.js";
-import authRouter from "./src/routes/auth.route.js";
-import listingRouter from "./src/routes/listing.route.js";
+import userRouter from "./routes/user.route.js";
+import authRouter from "./routes/auth.route.js";
+import listingRouter from "./routes/listing.route.js";
 import path from "path";
 
 import cookieParser from "cookie-parser";
