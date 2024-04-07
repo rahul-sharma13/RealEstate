@@ -1,0 +1,10 @@
+{
+    "version" : 2,
+    "name":"node-js",
+    "builds" :[
+        {"src" : "src/index.js", "use":"@vercal/node"}
+    ],
+    "routes":[
+        {"src" : "/(.*)","dest" : "/"}
+    ]
+}
