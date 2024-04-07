@@ -21,7 +21,7 @@ const SignUp = () => {
     e.preventDefault();
 
     setLoading(true);
-    await axios.post('/api/auth/signup', formData).then((response) => {
+    await axios.post('https://real-estate-rho-two.vercel.app/auth/signup', formData).then((response) => {
       // console.log(response?.data?.message);
       setLoading(false);
       setError(null);
