@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import OAuth from '../components/OAuth';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -23,6 +25,9 @@ const SignIn = () => {
     })
   }
 
+  const notifySuccess = () => toast.success("sign in done!");
+  const notifyFail = () => toast.error("Please try again.")
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,10 +36,14 @@ const SignIn = () => {
       await axios.post('/api/auth/signin', formData).then((response) => {
         // console.log(response);
         dispatch(signInSuccess(response?.data?.data));
-        navigate('/');
+        notifySuccess();
+        setTimeout(() => {
+          navigate('/');
+        }, 2000)
       }).catch((err) => {
         // console.log(err)
         dispatch(signInFailure(err.response?.data?.message));
+        notifyFail();
         return;
       })
     } catch (error) {
@@ -61,6 +70,19 @@ const SignIn = () => {
         </Link>
       </div>
       {error && <p className='text-red-700 mt-5'>{error}</p>}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+        transition={Slide}
+      />
     </div>
   )
 }

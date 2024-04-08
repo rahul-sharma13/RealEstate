@@ -4,10 +4,15 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signInSuccess } from '../redux/user/userSlice';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const notifySuccess = () => toast.success("sign in done!");
+  const notifyFail = () => toast.error("Please try again.");
 
   const handleGoogleClick = async () => {
     try {
@@ -20,9 +25,13 @@ const OAuth = () => {
       await axios.post('api/auth/google', { name: result.user.displayName, email: result.user.email, photo: result.user.photoURL }).then((response) => {
         // console.log(response)
         dispatch(signInSuccess(response?.data?.data))
-        navigate('/')
+        notifySuccess();
+        setTimeout(() => {
+          navigate('/');
+        }, 2000)
       }).catch((err) => {
         console.log(err)
+        notifyFail();
       })
     } catch (error) {
       console.log('Could not sign in with google', error)

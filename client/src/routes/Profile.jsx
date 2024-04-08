@@ -15,6 +15,8 @@ import {
 } from '../redux/user/userSlice';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
   const { currentUser, loading } = useSelector((state) => state.user);
@@ -31,6 +33,12 @@ const Profile = () => {
   const [userListing, setUserListing] = useState([]);
 
   const dispatch = useDispatch();
+
+  const notifySuccess = () => toast.success("Listing deleted successfully!");
+  const notifyFail = () => toast.error("Please try again.");
+
+  const updateSuccess = () => toast.success("User Updated!");
+  const updateFail = () => toast.error("Please try again.");
 
   useEffect(() => {
     if (file) {
@@ -75,11 +83,14 @@ const Profile = () => {
       dispatch(updateUserStart());
       await axios.post(`/api/users/update/${currentUser._id}`, formData).then((response) => {
         dispatch(updateUserSuccess(response?.data?.data));
+        updateSuccess();
       }).catch((error) => {
         dispatch(updateUserFail(error))
+        updateFail();
       })
     } catch (error) {
       dispatch(updateUserFail(error.message));
+      updateFail();
     }
   }
 
@@ -128,9 +139,11 @@ const Profile = () => {
     try {
       await axios.delete(`/api/listing/delete/${id}`).then((response) => {
         setUserListing((prev) => userListing.filter((listing) => listing._id !== id));
+        notifySuccess();
       })
     } catch (error) {
       console.log(error?.response?.data?.message);
+      notifyFail();
     }
   }
 
@@ -205,6 +218,20 @@ const Profile = () => {
           </div>
         ))
       }
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+        transition={Slide}
+      />
     </div>
   )
 }

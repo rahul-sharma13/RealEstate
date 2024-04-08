@@ -4,6 +4,8 @@ import { app } from '../firebase.js'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateListing = () => {
   const [files, setFiles] = useState([]);
@@ -22,6 +24,9 @@ const UpdateListing = () => {
     parking: false,
     furnished: false
   });
+  const notifyImage = () => toast.success("image uploaded successfully");
+  const notifyImageFail = () => toast.error("image upload fail");
+
   // console.log(formData);
   const params = useParams();
   useEffect(() => {
@@ -66,13 +71,16 @@ const UpdateListing = () => {
           imageUrls: formData.imageUrls.concat(urls)
           // as we want to keep the prev values too
         });
+        notifyImage();
         setImageUploadError(false);
         setUploading(false);
       }).catch((error) => {
+        notifyImageFail();
         setImageUploadError('Image upload failed(2MB max size)');
         setUploading(false);
       })
     } else {
+      notifyImageFail();
       setImageUploadError('Please upload 6 images only.');
       setUploading(false);
     }
@@ -317,6 +325,20 @@ const UpdateListing = () => {
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </div>
       </form>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+        transition={Slide}
+      />
     </main>
   )
 }

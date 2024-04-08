@@ -4,8 +4,16 @@ import { app } from '../firebase.js'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateListing = () => {
+    const notifySuccess = () => toast.success("Listing Added!");
+    const notifyFail = () => toast.error("Please try again.");
+
+    const notifyImage = () => toast.success("image uploaded successfully");
+    const notifyImageFail = () => toast.error("image upload fail");
+
     const [files, setFiles] = useState([]);
     // console.log(files);
     const [formData, setformData] = useState({
@@ -51,8 +59,10 @@ const CreateListing = () => {
                     // as we want to keep the prev values too
                 });
                 setImageUploadError(false);
+                notifyImage();
                 setUploading(false);
             }).catch((error) => {
+                notifyImageFail();
                 setImageUploadError('Image upload failed(2MB max size)');
                 setUploading(false);
             })
@@ -130,12 +140,16 @@ const CreateListing = () => {
 
             await axios.post('/api/listing/create', { ...formData, userRef: currentUser._id })
                 .then((response) => {
-                    console.log(response?.data?.data?._id);
+                    console.log(response?.data);
+                    notifySuccess();
                     setLoading(false);
-                    navigate(`/listing/${response._id}`);
+                    setTimeout(() => {
+                        navigate(`/listing/${response.data._id}`);
+                    }, 2000)
                 }).catch((error) => {
                     setLoading(false);
                     setError(error);
+                    notifyFail();
                 })
         } catch (error) {
             setError(error.message);
@@ -299,7 +313,19 @@ const CreateListing = () => {
                         className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 mt-2'>
                         {loading ? 'Creating...' : 'Create Listing'}
                     </button>
-                    {error && <p className='text-red-700 text-sm'>{error}</p>}
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover={false}
+                        theme="dark"
+                        transition={Slide}
+                    />
                 </div>
             </form>
         </main>
