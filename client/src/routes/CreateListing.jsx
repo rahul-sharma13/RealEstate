@@ -6,6 +6,19 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+    Input,
+    Checkbox,
+    Card,
+    List,
+    ListItem,
+    ListItemPrefix,
+    Typography,
+    Textarea,
+    Button
+} from '@material-tailwind/react';
+
+// TODO : 1) add loaders to different routes  2) handling listing page 3) responsive design and home page 
 
 const CreateListing = () => {
     const notifySuccess = () => toast.success("Listing Added!");
@@ -159,129 +172,232 @@ const CreateListing = () => {
 
     return (
         <main className='p-3 max-w-4xl mx-auto'>
-            <h1 className='text-3xl font-semibold text-center my-7'>Create a Listing</h1>
-            <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
-                <div className='flex flex-col gap-4 flex-1'>
-                    <input
-                        type='text'
-                        placeholder='Name'
-                        className='border p-3 rounded-lg' id='name'
-                        maxLength='62'
-                        minLength='10'
-                        required
-                        onChange={handleChange}
-                        value={formData.name}
-                    />
-                    <textarea
-                        type='text'
-                        placeholder='description' className='border p-3 rounded-lg' id='description'
-                        required
-                        onChange={handleChange}
-                        value={formData.description}
-                    />
-                    <input
-                        type='text'
-                        placeholder='Address'
-                        className='border p-3 rounded-lg' id='address'
-                        required
-                        onChange={handleChange}
-                        value={formData.address}
-                    />
+            <Typography variant='h2' color='black' className='text-left mb-2 text-[#1f3e72]'>Create Listing</Typography>
+            <p className='mb-2 text-slate-400 font-bold text-[1rem]'>Tell us more about your property</p>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                <div className='flex flex-row gap-4'>
+                    <div className='flex flex-col gap-4 flex-1'>
+                        <Input
+                            label='Name'
+                            id='name'
+                            maxLength='62'
+                            minLength='10'
+                            required
+                            onChange={handleChange}
+                            value={formData.name}
+                            color='blue'
+                        />
 
-                    <div className='flex flex-wrap gap-6'>
-                        <div className='flex gap-1'>
-                            <input
-                                type='checkbox'
-                                id='sale'
-                                className='w-5 cursor-pointer' onChange={handleChange}
-                                checked={formData.type === 'sale'}
-                            />
-                            <span>Sell</span>
-                        </div>
-                        <div className='flex gap-1'>
-                            <input type='checkbox' id='rent' className='w-5 cursor-pointer' onChange={handleChange} checked={formData.type === 'rent'} />
-                            <span>Rent</span>
-                        </div>
-                        <div className='flex gap-1'>
-                            <input type='checkbox' id='parking' className='w-5 cursor-pointer'
-                                onChange={handleChange}
-                                checked={formData.parking}
-                            />
-                            <span>Parking Spot</span>
-                        </div>
-                        <div className='flex gap-1'>
-                            <input type='checkbox' id='furnished' className='w-5 cursor-pointer'
-                                onChange={handleChange}
-                                checked={formData.furnished}
-                            />
-                            <span>Furnished</span>
-                        </div>
-                        <div className='flex gap-1'>
-                            <input type='checkbox' id='offer' className='w-5 cursor-pointer'
-                                onChange={handleChange}
-                                checked={formData.offer}
-                            />
-                            <span>Offer</span>
-                        </div>
-                    </div>
-                    <div className='flex flex-wrap gap-6'>
-                        <div className='flex items-center gap-2'>
-                            <input
-                                type='number'
-                                id='bedrooms'
-                                min='1'
-                                max='10'
-                                className='p-3 border border-gray-300 rounded-lg' required
-                                onChange={handleChange}
-                                value={formData.bedrooms}
-                            />
-                            <p>Beds</p>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                            <input type='number' id='bathrooms' min='1' max='10' className='p-3 border border-gray-300 rounded-lg' required
-                                onChange={handleChange}
-                                value={formData.bathrooms}
-                            />
-                            <p>Baths</p>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                            <input
-                                type='number'
-                                id='regularPrice'
-                                min='50'
-                                max='1000000'
-                                className='p-3 border border-gray-300 rounded-lg' required
-                                onChange={handleChange}
-                                value={formData.regularPrice}
-                            />
-                            <div className='flex flex-col'>
-                                <p>Regular Price</p>
-                                <span className='text-xs'>($/month)</span>
-                            </div>
-                        </div>
-                        {formData?.offer && (
+                        <Textarea
+                            variant="outlined"
+                            label="Description"
+                            color='blue'
+                            id='description'
+                            required
+                            onChange={handleChange}
+                            value={formData.description}
+                        />
+                        <Input
+                            label='Address'
+                            id='address'
+                            required
+                            onChange={handleChange}
+                            value={formData.address}
+                            color='blue'
+                        />
+
+                        <div className='flex flex-wrap gap-6'>
+
                             <div className='flex items-center gap-2'>
                                 <input
-                                    type='number' id='discountPrice'
-                                    min='0'
+                                    type='number'
+                                    id='regularPrice'
+                                    min='50'
                                     max='1000000'
-                                    className='p-3 border border-gray-300 rounded-lg' required
+                                    className='p-3 border border-gray-300 focus:outline-blue-400 rounded-lg' required
                                     onChange={handleChange}
-                                    value={formData.discountPrice}
+                                    value={formData.regularPrice}
                                 />
                                 <div className='flex flex-col'>
-                                    <p>Discounted Price</p>
+                                    <p>Regular Price</p>
                                     <span className='text-xs'>($/month)</span>
                                 </div>
                             </div>
-                        )}
+                            {formData?.offer && (
+                                <div className='flex items-center gap-2'>
+                                    <input
+                                        type='number' id='discountPrice'
+                                        min='0'
+                                        max='1000000'
+                                        className='p-3 border border-gray-300 rounded-lg' required
+                                        onChange={handleChange}
+                                        value={formData.discountPrice}
+                                    />
+                                    <div className='flex flex-col'>
+                                        <p>Discounted Price</p>
+                                        <span className='text-xs'>($/month)</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className='flex flex-col flex-1 gap-4'>
+                        <Card className="w-full max-w-[24rem] border-2">
+                            <List className="flex-row">
+                                <ListItem className="p-0">
+                                    <label
+                                        htmlFor="sell"
+                                        className="flex w-full cursor-pointer items-center px-3 py-2"
+                                    >
+                                        <ListItemPrefix className="mr-3">
+                                            <Checkbox
+                                                id="sale"
+                                                onChange={handleChange}
+                                                checked={formData.type === 'sale'}
+                                                ripple={false}
+                                                className="hover:before:opacity-0"
+                                                containerProps={{
+                                                    className: "p-0",
+                                                }}
+                                                color='blue'
+                                            />
+                                        </ListItemPrefix>
+                                        <Typography color="blue-gray" className="font-medium">
+                                            Sale
+                                        </Typography>
+                                    </label>
+                                </ListItem>
+                                <ListItem className="p-0">
+                                    <label
+                                        htmlFor="rent"
+                                        className="flex w-full cursor-pointer items-center px-3 py-2"
+                                    >
+                                        <ListItemPrefix className="mr-3">
+                                            <Checkbox
+                                                id="rent"
+                                                onChange={handleChange}
+                                                checked={formData.type === 'rent'}
+                                                ripple={false}
+                                                className="hover:before:opacity-0"
+                                                containerProps={{
+                                                    className: "p-0",
+                                                }}
+                                                color='blue'
+                                            />
+                                        </ListItemPrefix>
+                                        <Typography color="blue-gray" className="font-medium">
+                                            Rent
+                                        </Typography>
+                                    </label>
+                                </ListItem>
+
+                                <ListItem className="p-0">
+                                    <label
+                                        htmlFor="horizontal-list-offer"
+                                        className="flex w-full cursor-pointer items-center px-3 py-2"
+                                    >
+                                        <ListItemPrefix className="mr-3">
+                                            <Checkbox
+                                                id="offer"
+                                                ripple={false}
+                                                onChange={handleChange}
+                                                checked={formData.offer}
+                                                className="hover:before:opacity-0"
+                                                containerProps={{
+                                                    className: "p-0",
+                                                }}
+                                                color='blue'
+                                            />
+                                        </ListItemPrefix>
+                                        <Typography color="blue-gray" className="font-medium">
+                                            Offer
+                                        </Typography>
+                                    </label>
+                                </ListItem>
+                            </List>
+                        </Card>
+
+                        <Card className="w-full max-w-[24rem] border-2">
+                            <List className='flex-row'>
+                                <ListItem className="p-0">
+                                    <label
+                                        htmlFor="parking"
+                                        className="flex w-full cursor-pointer items-center px-3 py-2"
+                                    >
+                                        <ListItemPrefix className="mr-3">
+                                            <Checkbox
+                                                id="parking"
+                                                onChange={handleChange}
+                                                checked={formData.parking}
+                                                ripple={false}
+                                                className="hover:before:opacity-0"
+                                                containerProps={{
+                                                    className: "p-0",
+                                                }}
+                                                color='blue'
+                                            />
+                                        </ListItemPrefix>
+                                        <Typography color="blue-gray" className="font-medium">
+                                            Parking Spot
+                                        </Typography>
+                                    </label>
+                                </ListItem>
+
+                                <ListItem className="p-0">
+                                    <label
+                                        htmlFor="furnished"
+                                        className="flex w-full cursor-pointer items-center px-3 py-2"
+                                    >
+                                        <ListItemPrefix className="mr-3">
+                                            <Checkbox
+                                                id="furnished"
+                                                onChange={handleChange}
+                                                checked={formData.furnished}
+                                                ripple={false}
+                                                className="hover:before:opacity-0"
+                                                containerProps={{
+                                                    className: "p-0",
+                                                }}
+                                                color='blue'
+                                            />
+                                        </ListItemPrefix>
+                                        <Typography color="blue-gray" className="font-medium">
+                                            Furnished
+                                        </Typography>
+                                    </label>
+                                </ListItem>
+                            </List>
+                        </Card>
+
+                        <div className='flex items-center gap-3 mt-6'>
+                            <div className='flex items-center gap-2'>
+                                <input
+                                    type='number'
+                                    id='bedrooms'
+                                    min='1'
+                                    max='10'
+                                    className='p-3 border border-gray-300 focus:outline-blue-400  rounded-lg' required
+                                    onChange={handleChange}
+                                    value={formData.bedrooms}
+                                />
+                                <p>Beds</p>
+                            </div>
+                            <div className='flex items-center gap-2'>
+                                <input type='number' id='bathrooms' min='1' max='10' className='p-3 border border-gray-300 focus:outline-blue-400  rounded-lg' required
+                                    onChange={handleChange}
+                                    value={formData.bathrooms}
+                                />
+                                <p>Baths</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div className='flex flex-col flex-1 gap-4'>
-                    <p className='font-semibold'>Images:
-                        <span className='font-normal text-gray-600 ml-2'>The first image will be cover(max 6)</span>
+                <div>
+                    <p className='font-semibold mb-2'><span className='text-xl'>Images:</span><br />
+                        <span className='font-normal text-gray-600'>The first image will be cover(max 6)</span>
                     </p>
-                    <div className='flex gap-4'>
+                    <div className='flex gap-4 mb-2'>
                         <input
                             className='p-3 border border-gray-300 rounded w-full'
                             type='file'
@@ -308,26 +424,24 @@ const CreateListing = () => {
                             </div>
                         ))
                     }
-                    <button
-                        disabled={loading || uploading}
-                        className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 mt-2'>
+                    <Button disabled={loading || uploading} color='blue' className='mt-2' size='lg' variant="gradient" type='submit'>
                         {loading ? 'Creating...' : 'Create Listing'}
-                    </button>
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={2000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover={false}
-                        theme="dark"
-                        transition={Slide}
-                    />
+                    </Button>
                 </div>
             </form>
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="dark"
+                transition={Slide}
+            />
         </main>
     )
 }
