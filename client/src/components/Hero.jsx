@@ -24,9 +24,9 @@ const Hero = () => {
     }, [location.search]);
 
     return (
-        <section className='text-white bg-[#131110] relative pb-8 px-6'>
+        <section className='text-white bg-[#131110] relative pb-8 px-6 '>
             <div className='absolute w-72 h-72 bg-[rgb(255,255,255,0.522)] blur-[150px]' />
-            <div className='p-5 w-full flex items-end flex-wrap gap-8 justify-around'>
+            <div className='md:py-5 py-7 w-full flex items-end flex-wrap gap-8 justify-around'>
                 <div className='flex flex-col justify-center items-start gap-7'>
                     <div className='relative z-[1]'>
                         <div className=' h-14 w-14 rounded-full absolute right-[31%] top-[-7%] z-[-1] bg-orange-500' />
@@ -37,7 +37,7 @@ const Hero = () => {
                                 duration: 1.5,
                                 type: "ease-in"
                             }}
-                            className=' font-bold text-[3.6rem] spacing leading-[4rem]'>
+                            className='font-bold md:text-[3.6rem] text-[2.5rem] spacing md:leading-[4rem] leading-[3rem]'>
                             Find your
                             <br />
                             next perfect <br />
@@ -75,24 +75,24 @@ const Hero = () => {
                     <div className='flex items-center flex-wrap w-full justify-between'>
                         <div className=' flex flex-col justify-center items-start'>
                             <span>
-                                <CountUp start={8800} end={9000} duration={4} className='text-3xl' />
-                                <span className='text-orange-600 text-3xl'>+</span>
+                                <CountUp start={8800} end={9000} duration={4} className='md:text-3xl text-2xl' />
+                                <span className='text-orange-600 md:text-3xl text-2xl'>+</span>
                             </span>
-                            <span className='text-[0.9rem] text-[rgb(140,139,139)]'>Premium Products</span>
+                            <span className='md:text-[0.9rem] text-[0.8rem] text-[rgb(140,139,139)]'>Premium Products</span>
                         </div>
                         <div className='flex flex-col justify-center items-start'>
                             <span>
-                                <CountUp start={1950} end={2000} duration={4} className=' text-3xl' />
-                                <span className='text-orange-600 text-3xl'>+</span>
+                                <CountUp start={1950} end={2000} duration={4} className='md:text-3xl text-2xl' />
+                                <span className='text-orange-600 md:text-3xl text-2xl'>+</span>
                             </span>
-                            <span className='text-[rgb(140,139,139)] text-[0.9rem]'>Happy Customers</span>
+                            <span className='text-[rgb(140,139,139)] md:text-[0.9rem] text-[0.8rem]'>Happy Customers</span>
                         </div>
                         <div className='flex flex-col justify-center items-start'>
                             <span>
-                                <CountUp end={28} className='text-3xl' />
-                                <span className='text-orange-600 text-3xl'>+</span>
+                                <CountUp end={28} className='md:text-3xl text-2xl' />
+                                <span className='text-orange-600 md:text-3xl text-2xl'>+</span>
                             </span>
-                            <span className=' text-[0.9rem] text-[rgb(140,139,139)]'>Award Winning</span>
+                            <span className='md:text-[0.9rem] text-[0.8rem] text-[rgb(140,139,139)]'>Award Winning</span>
                         </div>
                     </div>
 
@@ -104,7 +104,7 @@ const Hero = () => {
                         duration: 1.5,
                         type: "ease-in"
                     }}
-                    className='w-[30rem] h-[35rem] overflow-hidden rounded-t-[15rem] border-solid border-[7px] border-gray-700' >
+                    className='md:w-[30rem] md:h-[35rem] h-[25rem] w-[95%] overflow-hidden rounded-t-[15rem] border-solid border-[7px] border-gray-700' >
                     <img src='./hero-image.png' className='w-full h-full' alt='hero-img' />
                 </motion.div>
             </div>

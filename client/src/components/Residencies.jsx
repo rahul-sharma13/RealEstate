@@ -7,17 +7,17 @@ import { sliderSettings } from '../constants/common'
 const Residencies = () => {
     const [price, setPrice] = useState(null);
     return (
-        <section className='overflow-hidden relative px-36 mt-10'>
+        <section className='overflow-hidden relative md:px-36 mt-10'>
             <div className='p-[1.5rem] w-full'>
-                <div className='flex flex-col justify-center items-start mb-8'>
+                <div className='flex flex-col justify-center md:items-start items-center mb-8'>
                     <span className='text-orange-500 text-2xl font-semibold'>Best Choices</span>
                     <span className='text-[#1f3e72] font-bold text-[2rem]'>Popular Residencies</span>
                 </div>
 
-                <Swiper {...sliderSettings}>
+                <Swiper {...sliderSettings} className=''>
                     <SliderButtons />
                     {data.map((card, i) => (
-                        <SwiperSlide key={i}>
+                        <SwiperSlide key={i} className='md:flex md:justify-start flex justify-center'>
                             <div
                                 className='relative max-w-xs overflow-hidden rounded-2xl shadow-lg group h-72 w-60 cursor-pointer z-[-1]'
                                 onMouseOver={() => setPrice(i)}
@@ -55,7 +55,7 @@ const SliderButtons = () => {
     const swiper = useSwiper();
 
     return (
-        <div className='flex justify-start items-center flex-wrap gap-1 mt-5'>
+        <div className='flex md:justify-start justify-center items-center flex-wrap gap-1 mt-5'>
             <button 
                 onClick={() => swiper.slidePrev()}
                 className='text-[1.2rem] py-[0.2rem] px-[0.8rem] text-blue-500 border-none border-r-[5px] bg-[#dbdbf5] cursor-pointer'

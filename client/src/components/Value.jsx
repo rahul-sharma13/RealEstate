@@ -5,7 +5,6 @@ import {
     AccordionItemHeading,
     AccordionItemButton,
     AccordionItemPanel,
-    AccordionItemState
 } from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import { MdOutlineArrowDropDown } from 'react-icons/md'
@@ -14,14 +13,14 @@ import data from '../constants/accordian'
 const Value = () => {
     return (
         <section className='mt-10'>
-            <div className='px-36 w-full flex items-center justify-center flex-wrap'>
-                <div className='flex-1'>
-                    <div className='w-[30rem] h-[35rem] overflow-hidden rounded-t-[15rem] border-solid border-[7px] border-slate-400'>
-                        <img src='./value.png' />
+            <div className='md:px-36 w-full flex md:flex-row flex-col items-center justify-center flex-wrap'>
+                <div className='flex-1 w-full'>
+                    <div className='md:w-[30rem] md:h-[35rem] h-[25rem] w-[85%] mx-auto overflow-hidden rounded-t-[15rem] border-solid border-[7px] border-slate-400'>
+                        <img src='./value.png' className='object-cover'/>
                     </div>
                 </div>
 
-                <div className='flex flex-col justify-center items-start flex-1 gap-[0.5rem]'>
+                <div className='flex flex-col justify-center items-start flex-1 gap-[0.5rem] mt-5 md:mx-0 mx-10'>
                     <span className='text-orange-500 text-2xl font-semibold'>Our Value</span>
                     <span className='text-[#1f3e72] font-bold text-3xl'>Value we give to you</span>
                     <span className='text-[rgb(140,139,139)] text-[0.9rem]'>
@@ -41,7 +40,7 @@ const Value = () => {
                                     <AccordionItemHeading>
                                         <AccordionItemButton className='flex items-center justify-between flex-wrap bg-white p-1 w-full cursor-pointer'>
                                             <div className='flex items-center justify-center flex-wrap p-3 bg-[#eeeeff] text-blue-500'>{item.icon}</div>
-                                            <span className='text-[#1f3e72] font-bold text-[1.1rem]'>
+                                            <span className='text-[#1f3e72] font-bold md:text-[1.1rem] text-[0.8rem]'>
                                                 {item.heading}
                                             </span>
                                             <div className='flex items-center justify-center flex-wrap p-3 bg-[#eeeeff] text-blue-500'>

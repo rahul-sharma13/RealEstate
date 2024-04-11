@@ -82,7 +82,7 @@ export default function MobileMenu() {
                     :
                     (
                       <button
-                        className="transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary hover:bg-primary/90 h-10 inline-flex items-center justify-center px-6 py-2 border-0 rounded-xl text-sm font-medium text-white bg-gradient-to-l from-[#4066ff] to-[#2949c6] shadow-lg hover:from-[#2949c6] hover:to-[#4066ff]"
+                        className="transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary hover:bg-primary/90 h-10 inline-flex items-center justify-center px-6 py-2 border-0 rounded-xl text-sm font-medium text-white bg-gradient-to-l from-[#4066ff] to-[#2949c6] shadow-lg hover:from-[#2949c6] hover:to-[#4066ff] mb-2 ml-2"
                       >
                         <Link to="/signin">
                           SignIn

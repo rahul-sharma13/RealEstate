@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { signInSuccess } from '../redux/user/userSlice';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Button } from '@material-tailwind/react';
 
 const OAuth = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const OAuth = () => {
 
   return (
     // adding type here as button so that it does not submit on click which is by default as it is written inside a form
-    <button onClick={handleGoogleClick} type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>Continue with Google</button>
+    <Button onClick={handleGoogleClick} type='button' color='red' fullWidth>Continue with Google</Button>
   )
 }
 
