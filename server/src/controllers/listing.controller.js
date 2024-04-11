@@ -122,3 +122,12 @@ export const getListings = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAllListings = async (req, res, next) => {
+  try {
+    const listings = await Listing.find();
+    res.status(200).json(new ApiResponse(200, listings, "all listings fetched"));
+  } catch (error) {
+    next(error);
+  }
+};
